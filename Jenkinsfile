@@ -33,9 +33,8 @@ stage('Code Analysis') {
 stage('Docker Build'){
      steps{
          script {
-                    sh 'docker build -t pavanbolla/autodockerbuild:$BUILD_NUMBER -f ${WORKSPACE}/Dockerfile .'
-                    sh 'docker tag pavanbolla/autodockerbuild:$BUILD_NUMBER pavanbolla/autodockerbuild:$BUILD_NUMBER'
-                            }
+                    sh 'docker build -t pavanbolla/autodockerbuild:latest-f ${WORKSPACE}/Dockerfile .'
+                                               }
 			post{
                 success{
                     echo "Build and Push Successfully"
