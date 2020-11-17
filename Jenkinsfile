@@ -1,9 +1,7 @@
 pipeline {
  
     environment {
-        
-        //put your own environment variables
-        REGISTRY_URI = https://github.com/pbolla0818/hshar.git
+           REGISTRY_URI = 'https://github.com/pbolla0818/hshar.git'
 }
  
     stages {
