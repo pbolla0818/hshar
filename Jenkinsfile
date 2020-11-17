@@ -87,3 +87,4 @@ stage('Building image') {
     }
 }
 }
+}
