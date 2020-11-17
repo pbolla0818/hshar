@@ -1,6 +1,7 @@
+#!groovy
+
 pipeline {
- 
-    agent any
+     agent none
  
     stages {
         stage('Initial Notification') {
