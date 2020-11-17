@@ -35,11 +35,26 @@ stage('Docker Build'){
          script {
                     sh 'docker build -t pavanbolla/autodockerbuild:$BUILD_NUMBER -f ${WORKSPACE}/Dockerfile .'
                     sh 'docker tag pavanbolla/autodockerbuild:$BUILD_NUMBER pavanbolla/autodockerbuild:$BUILD_NUMBER'
-                    sh 'docker login -u pavanbolla/autodockerbuild -p $DOCKER_PWD'
+                    sh 'docker login -u pavanbolla/autodockerbuild '
                     sh 'push pavanbolla/autodockerbuild:$BUILD_NUMBER'
+            }
+			post{
+                success{
+                    echo "Build and Push Successfully"
+                }
+                failure{
+                    echo "Build and Push Failed"
+                }
             }
         }
 }
-          
+             post{
+                success{
+                    echo "Build and Push Successfully"
+                }
+                failure{
+                    echo "Build and Push Failed"
+                }
+            }
         }
 }
