@@ -1,7 +1,6 @@
 pipeline {
  
     agent = any
-}
  
     stages {
         stage('Initial Notification') {
@@ -34,8 +33,8 @@ stage('Code Analysis') {
 stage("Build"){
 	 steps {
 		echo "Docker Build"
-		docker build -f Dockerfile -t pavanbolla/autodockerbuild:$BUILD_NUMBER .  ## use your docker hub repo
-		docker login -u pavanbolla/autodockerbuild -p $DOCKER_PWD ## replace lerndevops with your docker hub username
+		docker build -f Dockerfile -t pavanbolla/autodockerbuild:$BUILD_NUMBER .  
+		docker login -u pavanbolla/autodockerbuild -p $DOCKER_PWD 
 		docker push pavanbolla/autodockerbuild:$BUILD_NUMBER
              }
             post{
@@ -47,70 +46,5 @@ stage("Build"){
                 }
             }
         }
-	    
-stage('Image Scan') {
-            steps {
-                //Put your image scanning tool 
-                echo 'Image Scanning Start'
-            }
-            post{
-                success{
-                    echo "Image Scanning Successfully"
-                }
-                failure{
-                    echo "Image Scanning Failed"
-                }
-            }
-        }
-stage("Deploy to Production"){
-            when {
-                branch 'master'
-            }
-            steps { 
-                kubernetesDeploy kubeconfigId: 'kubeconfig-credentials-id', configs: 'YOUR_YAML_PATH/your_k8s_yaml', enableConfigSubstitution: true  // REPLACE kubeconfigId
- 
-             }
-            post{
-                success{
-                    echo "Successfully deployed to Production"
-                }
-                failure{
-                    echo "Failed deploying to Production"
-                }
-            }
-        }
-stage("Deploy to Staging"){
-            when {
-                branch 'staging'
-            }
-            steps {
-                kubernetesDeploy kubeconfigId: 'kubeconfig-credentials-id', configs: 'YOUR_YAML_PATH/your_k8s_yaml', enableConfigSubstitution: true  // REPLACE kubeconfigId
-             }
-            post{
-                success{
-                    echo "Successfully deployed to Staging"
-                }
-                failure{
-                    echo "Failed deploying to Staging"
-                }
-            }
-        }
-}
- 
-    post{
-        always{
-step([
-             //put your Testing
-            ])
-        }
-        success{
-            //notification webhook
-            echo 'Pipeline Execution Successfully Notification'
-}
-        failure{
-            //notification webhook
-            echo 'Pipeline Execution Failed Notification'
-}
-    }
 }
 }
