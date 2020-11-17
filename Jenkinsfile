@@ -33,6 +33,9 @@ stage('Code Analysis') {
 stage("Build"){
 	 steps {
 		echo "Docker Build"
+		docker build -f Dockerfile -t pavanbolla/autodockerbuild:$BUILD_NUMBER .
+		docker login -u pavanbolla/autodockerbuild -p $DOCKER_PWD
+		docker push pavanbolla/autodockerbuild:$BUILD_NUMBER
 	             }
             post{
                 success{
