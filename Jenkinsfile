@@ -40,13 +40,6 @@ stage('Docker Build'){
             }
         }
 }
-             post{
-                success{
-                    echo "Build and Push Successfully"
-                }
-                failure{
-                    echo "Build and Push Failed"
-                }
-            }
+          
         }
 }
