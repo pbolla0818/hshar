@@ -3,7 +3,7 @@ pipeline {
     environment {
         
         //put your own environment variables
-        REGISTRY_URI = 
+        REGISTRY_URI = "pavanbolla/dockerimage"
 }
  
     stages {
@@ -35,10 +35,10 @@ stage('Code Analysis') {
             }
         }
 stage("Build"){
-            steps {
-steps {withCredentials([usernamePassword(credentialsId: 'YOUR_ID_DEFINED', passwordVariable: 'YOUR_PW_DEFINED', usernameVariable: 'YOUR_ACCOUNT_DEFINED')]) {
+	 steps {
+     //{withCredentials([usernamePassword(credentialsId: 'YOUR_ID_DEFINED', passwordVariable: 'YOUR_PW_DEFINED', usernameVariable: 'YOUR_ACCOUNT_DEFINED')]) {
                     sh """
-                    docker login ${REGISTRY_URI} -u ${YOUR_ACCOUNT_DEFINED} -p ${YOUR_PW_DEFINED}
+                    docker login -u pavanbolla -p ${docker_pwd}
                     """
                 }
 echo "Docker Build"
@@ -133,4 +133,5 @@ step([
             echo 'Pipeline Execution Failed Notification'
 }
     }
+}
 }
