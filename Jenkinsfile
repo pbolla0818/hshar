@@ -38,14 +38,6 @@ stage('Docker Build'){
          script {
                     sh 'docker build -t pavanbolla/autodockerbuild:latest -f ${WORKSPACE}/Dockerfile .'
                                                 }
-			post{
-                success{
-                    echo "Build and Push Successfully"
-                }
-                failure{
-                    echo "Build and Push Failed"
-                }
-            }
         }
 		}
 	stage('Deploy Image') {
