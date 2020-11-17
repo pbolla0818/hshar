@@ -1,4 +1,5 @@
 pipeline {
+ agent { any }
  
     environment {
            REGISTRY_URI = 'https://github.com/pbolla0818/hshar.git'
