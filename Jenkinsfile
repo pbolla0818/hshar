@@ -30,14 +30,17 @@ stage('Code Analysis') {
                 }
             }
         }
-stage("Build"){
-	 steps {
-		echo "Docker Build"
-		docker build -f Dockerfile -t pavanbolla/autodockerbuild:$BUILD_NUMBER .
-		docker login -u pavanbolla/autodockerbuild -p $DOCKER_PWD
-		docker push pavanbolla/autodockerbuild:$BUILD_NUMBER
-	             }
-            post{
+stage('Docker Build'){
+     steps{
+         script {
+                    sh 'docker build -t pavanbolla/autodockerbuild:$BUILD_NUMBER -f ${WORKSPACE}/Dockerfile .'
+                    sh 'docker tag pavanbolla/autodockerbuild:$BUILD_NUMBER pavanbolla/autodockerbuild:$BUILD_NUMBER'
+                    sh 'docker login -u pavanbolla/autodockerbuild -p $DOCKER_PWD'
+                    sh 'push pavanbolla/autodockerbuild:$BUILD_NUMBER'
+            }
+        }
+}
+             post{
                 success{
                     echo "Build and Push Successfully"
                 }
