@@ -1,11 +1,10 @@
 pipeline {
  
     agent any
-      environment {
-                dockerHubUser = pavanbolla
-				dockerHubPassword = Merial@5909
-				
-            }
+     environment {
+    registry = "pavanbolla/autodockerbuild"
+    registryCredential = `dockerHub'
+}
     stages {
         stage('Initial Notification') {
             steps {
@@ -37,9 +36,8 @@ stage('Code Analysis') {
 stage('Docker Build'){
      steps{
          script {
-                    sh 'docker build -t pavanbolla/autodockerbuild:$BUILD_NUMBER -f ${WORKSPACE}/Dockerfile .'
-                    sh 'docker tag pavanbolla/autodockerbuild:$BUILD_NUMBER pavanbolla/autodockerbuild:$BUILD_NUMBER'
-                            }
+                    sh 'docker build -t pavanbolla/autodockerbuild:latest -f ${WORKSPACE}/Dockerfile .'
+                                                }
 			post{
                 success{
                     echo "Build and Push Successfully"
@@ -50,11 +48,12 @@ stage('Docker Build'){
             }
         }
 		}
-	  stage('Docker Push') {
-        steps {
-         {
-          sh "docker login -u ${dockerHubUser} -p ${dockerHubPassword}"
-          sh 'docker push pavanbolla/autodockerbuild:latest'
+	stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
         }
       }
     }
