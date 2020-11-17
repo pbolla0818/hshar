@@ -1,10 +1,5 @@
 pipeline {
- agent none
- 
-    environment {
-           REGISTRY_URI = 'https://github.com/pbolla0818/hshar.git'
-}
- 
+    agent any
     stages {
         stage('Initial Notification') {
             steps {
@@ -12,14 +7,14 @@ pipeline {
                  echo 'Pipeline Start Notification'
             }
         }
-stage('Code Analysis') {           
+        stage('Code Analysis') {           
             steps {
                //put your code scanner 
                 echo 'Code Scanning and Analysis'
             }
         }
- 
-        stage('Robot Testing') {
+		
+		        stage('Robot Testing') {
             steps {
                 //put your Testing
                 echo 'Robot Testing Start'
@@ -33,7 +28,8 @@ stage('Code Analysis') {
                 }
             }
         }
-stage("Build"){
+		
+		stage("Build"){
             steps {
 steps {withCredentials([usernamePassword(credentialsId: 'YOUR_ID_DEFINED', passwordVariable: 'YOUR_PW_DEFINED', usernameVariable: 'YOUR_ACCOUNT_DEFINED')]) {
                     sh """
@@ -116,21 +112,5 @@ stage("Deploy to Staging"){
             }
         }
 }
- 
-    post{
-        always{
-step([
-             //put your Testing
-            ])
-        }
-        success{
-            //notification webhook
-            echo 'Pipeline Execution Successfully Notification'
-}
-        failure{
-            //notification webhook
-            echo 'Pipeline Execution Failed Notification'
-}
     }
-}
 }
