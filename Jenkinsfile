@@ -33,7 +33,7 @@ stage('Code Analysis') {
 stage('Docker Build'){
      steps{
          script {
-                    sh 'docker build -t pavanbolla/autodockerbuild:latest-f ${WORKSPACE}/Dockerfile .'
+                    sh 'docker build -t pavanbolla/autodockerbuild:latest -f ${WORKSPACE}/Dockerfile .'
                                                }
 			post{
                 success{
