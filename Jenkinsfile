@@ -3,7 +3,7 @@ pipeline {
     agent any
      environment {
     registry = "pavanbolla/autodockerbuild"
-    registryCredential = `dockerHub'
+    registryCredential = 'dockerHub'
 }
     stages {
         stage('Initial Notification') {
