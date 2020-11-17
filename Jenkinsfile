@@ -50,4 +50,3 @@ stage('Docker Build'){
             }
         }
 }
-}
