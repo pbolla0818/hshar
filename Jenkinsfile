@@ -34,7 +34,6 @@ stage('Code Analysis') {
 stage("Build"){
 	 steps {
 		echo "Docker Build"
-		cd $WORKSPACE
 		docker build -f Dockerfile -t pavanbolla/autodockerbuild:$BUILD_NUMBER .  ## use your docker hub repo
 		docker login -u pavanbolla/autodockerbuild -p $DOCKER_PWD ## replace lerndevops with your docker hub username
 		docker push pavanbolla/autodockerbuild:$BUILD_NUMBER
