@@ -46,14 +46,13 @@ stage('Docker Build'){
             }
         }
 		}
-	    stage('Push image') {
-		steps {
-           docker.withRegistry('https://registry.hub.docker.com','docker-hub-credentials') 
-		   {
-			app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+	  stage('Docker Push') {
+        steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh 'docker push pavanbolla/autodockerbuild:latest'
         }
-       }
-}
+      }
+    }
 }
 }
