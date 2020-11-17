@@ -1,5 +1,4 @@
-from hshar/webapp
+from httpd
 
 ADD . /var/www/html
-
 
