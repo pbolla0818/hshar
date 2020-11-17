@@ -1,9 +1,6 @@
 pipeline {
  
-    environment {
-        
-        //put your own environment variables
-        REGISTRY_URI = "pavanbolla/dockerimage"
+    agent = any
 }
  
     stages {
@@ -36,30 +33,12 @@ stage('Code Analysis') {
         }
 stage("Build"){
 	 steps {
-     //{withCredentials([usernamePassword(credentialsId: 'YOUR_ID_DEFINED', passwordVariable: 'YOUR_PW_DEFINED', usernameVariable: 'YOUR_ACCOUNT_DEFINED')]) {
-                    sh """
-                    docker login -u pavanbolla -p ${docker_pwd}
-                    """
-                }
-echo "Docker Build"
-sh """
-                docker build -t ${IMAGE_NAME}:${VERSION_PREFIX}${BUILD_NUMBER} ${WORKSPACE} -f Dockerfile
-                """
-echo "Docker Tag"
-sh """
-                    docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${REGISTRY_URI}/${REGISTRY_NAME}/${IMAGE_NAME}:${GIT_BRANCH}-${GIT_COMMIT}
-                    docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${REGISTRY_URI}/${REGISTRY_NAME}/${IMAGE_NAME}:${GIT_BRANCH}-${BUILD_NUMBER}
-                    docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${REGISTRY_URI}/${REGISTRY_NAME}/${IMAGE_NAME}:${GIT_BRANCH}-${LATEST}
-                """
-                
-                echo "Docker Push"
-sh """
-                    docker push ${REGISTRY_URI}/${REGISTRY_NAME}/${IMAGE_NAME}:${GIT_BRANCH}-${GIT_COMMIT}
-                    docker push ${REGISTRY_URI}/${REGISTRY_NAME}/${IMAGE_NAME}:${GIT_BRANCH}-${BUILD_NUMBER}
-                    docker push ${REGISTRY_URI}/${REGISTRY_NAME}/${IMAGE_NAME}:${GIT_BRANCH}-${LATEST}
-                """
- 
-            }
+		echo "Docker Build"
+		cd $WORKSPACE
+		docker build -f Dockerfile -t pavanbolla/autodockerbuild:$BUILD_NUMBER .  ## use your docker hub repo
+		docker login -u pavanbolla/autodockerbuild -p $DOCKER_PWD ## replace lerndevops with your docker hub username
+		docker push pavanbolla/autodockerbuild:$BUILD_NUMBER
+             }
             post{
                 success{
                     echo "Build and Push Successfully"
@@ -69,6 +48,7 @@ sh """
                 }
             }
         }
+	    
 stage('Image Scan') {
             steps {
                 //Put your image scanning tool 
