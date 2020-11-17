@@ -87,15 +87,3 @@ stage('Building image') {
     }
 }
 }
-
-	stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
-        }
-      }
-    }
-}
-}
