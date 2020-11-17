@@ -36,9 +36,9 @@ stage('Code Analysis') {
         }
 stage("Build"){
 	 steps {
-     {withCredentials([usernamePassword(credentialsId: 'YOUR_ID_DEFINED', passwordVariable: 'YOUR_PW_DEFINED', usernameVariable: 'YOUR_ACCOUNT_DEFINED')]) {
+     //{withCredentials([usernamePassword(credentialsId: 'YOUR_ID_DEFINED', passwordVariable: 'YOUR_PW_DEFINED', usernameVariable: 'YOUR_ACCOUNT_DEFINED')]) {
                     sh """
-                    docker login ${REGISTRY_URI} -u ${YOUR_ACCOUNT_DEFINED} -p ${YOUR_PW_DEFINED}
+                    docker login -u pavanbolla -p ${docker_pwd}
                     """
                 }
 echo "Docker Build"
