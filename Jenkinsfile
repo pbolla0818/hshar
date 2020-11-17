@@ -35,7 +35,7 @@ stage('Docker Build'){
          script {
                     sh 'docker build -t pavanbolla/autodockerbuild:$BUILD_NUMBER -f ${WORKSPACE}/Dockerfile .'
                     sh 'docker tag pavanbolla/autodockerbuild:$BUILD_NUMBER pavanbolla/autodockerbuild:$BUILD_NUMBER'
-                    sh 'docker login --username=pavanbolla --password=$DOCKER_HUB_PWD'
+                    sh 'docker login -u pavanbolla -p $DOCKER_HUB_PWD'
                     sh 'push pavanbolla/autodockerbuild:$BUILD_NUMBER'
             }
 			post{
