@@ -15,7 +15,8 @@ pipeline {
 stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry
+         sudo docker rm -f  $(sudo docker ps -a -q -l)
+	 sudo docker build . -t test
         }
       }
     }
