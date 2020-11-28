@@ -33,11 +33,27 @@ stage('Docker Test') {
 agent {  label  'test'  }
       steps{
         script {
-          sh  'sudo docker rm -f $(sudo docker ps -a -q -l)'
           sh  'sudo docker pull pavanbolla/autodockerbuild'
           sh  'sudo docker run -it -p 82:80 -d pavanbolla/autodockerbuild'
         }
       }
     }
+stage("Deploy to Prod"){
+agent {  label  'Master'  }
+            when {
+                branch 'test'
+            }
+            steps {
+              sh   'kubectl create -f custom.yml'
+             }
+            post{
+                success{
+                    echo "Successfully deployed to prod"
+                }
+                failure{
+                    echo "Failed deploying to prod"
+                }
+            }
+        }
 }
 }
