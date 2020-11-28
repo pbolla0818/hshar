@@ -1,20 +1,20 @@
 kind: Deployment
 metadata:
-  name: custom-deployment
+  name: test-deployment
   labels:
-    app: custom
+    app: test
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: custom
+      app: test
   template:
    metadata:
      labels:
-       app: custom
+       app: test
    spec:
      containers:
       - name: custom
-        image: pavanbolla/autodockerbuild:52
+        image: pavanbolla/autodockerbuild
         ports:
         - containerPort: 80
