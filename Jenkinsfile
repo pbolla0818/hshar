@@ -45,6 +45,7 @@ agent {  label  'Master'  }
             steps {
 	      sh   'kubectl delete -f custom.yml'
               sh   'kubectl create -f custom.yml'
+	      sh   'kubectl delete svc custom'
 	      sh   'kubectl expose deployment custom-deployment --type NodePort --name custom'
              }
             post{
