@@ -12,16 +12,17 @@ pipeline {
                  echo 'Pipeline Start Notification'
             }
         }
+
 stage('Building image') {
       steps{
         script {
-         sh docker rm -f  $(docker ps -a -q -l)
-	 sh docker build . -t test
+         sh  'docker rm -f $(sudo docker ps -a -q -l)'
+	 sh 'docker build . -t test'
         }
       }
     }
 	
-stage('Deploy Image') {
+	stage('Deploy Image') {
       steps{
         script {
           docker.withRegistry( '', registryCredential ) {
