@@ -1,34 +1,17 @@
-<<<<<<< HEAD
-kind: Deployment
-metadata:
-  name: test-deployment
-  labels:
-    app: test
-=======
-apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: custom-deployment
   labels:
     app: custom
->>>>>>> 010f425 (custom yml)
 spec:
   replicas: 2
   selector:
     matchLabels:
-<<<<<<< HEAD
-      app: test
-  template:
-   metadata:
-     labels:
-       app: test
-=======
       app: custom
   template:
    metadata:
      labels:
        app: custom
->>>>>>> 010f425 (custom yml)
    spec:
      containers:
       - name: custom
