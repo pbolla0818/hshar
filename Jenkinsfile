@@ -1,6 +1,6 @@
 pipeline {
  
-    agent any
+    agent {  label  'Master'  }
      environment {
     registry = "pavanbolla/autodockerbuild"
     registryCredential = 'dockerHub'
@@ -12,22 +12,30 @@ pipeline {
                  echo 'Pipeline Start Notification'
             }
         }
-
-stage('Building image') {
+stage('Docker Build image') {
       steps{
         script {
-         sh  'docker rm -f $(sudo docker ps -a -q -l)'
-	 sh 'docker build . -t test'
-        }
+        sh  'docker rm -f $(docker ps -a -q -l)'
+        sh  'docker build . -t pavanbolla/autodockerbuild'
+        sh  'docker run -it -p 82:80 -d pavanbolla/autodockerbuild'
+                }
       }
     }
 	
-	stage('Deploy Image') {
+stage('Docker Push Image') {
       steps{
         script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
+          sh 'docker push pavanbolla/autodockerbuild'
+        }
+      }
+    }
+stage('Docker Test') {
+agent {  label  'test'  }
+      steps{
+        script {
+          sh  'sudo docker rm -f $(sudo docker ps -a -q -l)'
+          sh  'sudo docker pull pavanbolla/autodockerbuild'
+          sh  'sudo docker run -it -p 82:80 -d pavanbolla/autodockerbuild'
         }
       }
     }
