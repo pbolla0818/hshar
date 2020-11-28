@@ -34,8 +34,7 @@ agent {  label  'test'  }
       steps{
         script {
           sh  'sudo docker pull pavanbolla/autodockerbuild'
-          sh  'sudo docker run -it -p 82:80 -d pavanbolla/autodockerbuild'
-        }
+                  }
       }
     }
 stage("Deploy to Prod"){
