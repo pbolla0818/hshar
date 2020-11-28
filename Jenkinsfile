@@ -12,36 +12,15 @@ pipeline {
                  echo 'Pipeline Start Notification'
             }
         }
-stage('Code Analysis') {           
-            steps {
-               //put your code scanner 
-                echo 'Code Scanning and Analysis'
-            }
-        }
- 
-        stage('Robot Testing') {
-            steps {
-                //put your Testing
-                echo 'Robot Testing Start'
-            }
-            post{
-                success{
-                    echo "Robot Testing Successfully"
-                }
-                failure{
-                    echo "Robot Testing Failed"
-                }
-            }
-        }
 stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          dockerImage = docker.build registry
         }
       }
     }
 	
-	stage('Deploy Image') {
+stage('Deploy Image') {
       steps{
         script {
           docker.withRegistry( '', registryCredential ) {
