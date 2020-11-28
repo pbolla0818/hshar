@@ -15,8 +15,8 @@ pipeline {
 stage('Building image') {
       steps{
         script {
-         docker rm -f  $(docker ps -a -q -l)
-	 sudo docker build . -t test
+         sh docker rm -f  $(docker ps -a -q -l)
+	 sh docker build . -t test
         }
       }
     }
